@@ -52,7 +52,7 @@ export default function ReviewPage() {
               Guided Review Session
             </h1>
           </div>
-          <Link href="/">
+          <Link href="/exam">
             <Button variant="ghost" size="sm" className="gap-1.5">
               <ArrowLeft className="h-4 w-4" />
               Back to Exam

@@ -8,8 +8,8 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'CAT Quant Sectional 1 | Cat-alyst',
-  description: 'Online MBA entrance exam practice platform',
+  title: 'CAT-alytic | Guided CAT Prep',
+  description: 'Measure your ability, log your logic, and build your CAT score with AI-powered analysis.',
   generator: 'v0.app',
   icons: {
     icon: [
