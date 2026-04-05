@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ReviewQuestionCard } from "@/components/review-question-card";
 import { ReasoningInput } from "@/components/reasoning-input";
 import { SolutionButtons } from "@/components/solution-buttons";
+import { QuestionMetadata, type Difficulty } from "@/components/question-metadata";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, BookOpen } from "lucide-react";
 
@@ -18,6 +19,9 @@ const sampleQuestion = {
     { id: "d", label: "D", text: "$\\pm 4$" },
   ],
   correctAnswer: "B",
+  topic: "Algebra - Logarithms",
+  difficulty: "hard" as Difficulty,
+  timeSpent: "2:45 mins",
 };
 
 export default function ReviewPage() {
@@ -70,6 +74,15 @@ export default function ReviewPage() {
 
           {/* Reasoning input area */}
           <ReasoningInput value={reasoning} onChange={setReasoning} />
+
+          {/* Question metadata badges */}
+          <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
+            <QuestionMetadata
+              topic={sampleQuestion.topic}
+              difficulty={sampleQuestion.difficulty}
+              timeSpent={sampleQuestion.timeSpent}
+            />
+          </div>
 
           {/* Solution buttons */}
           <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
