@@ -24,7 +24,7 @@ export default function HomePage() {
 
           {/* CTA Button */}
           <div className="mt-10">
-            <Link href="/exam">
+            <Link href="/instructions">
               <Button
                 size="lg"
                 className="gap-2 bg-slate-900 px-8 py-6 text-base font-medium text-white hover:bg-slate-800"
