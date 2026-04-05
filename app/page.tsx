@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ExamHeader } from "@/components/exam-header";
 import { QuestionCard } from "@/components/question-card";
@@ -49,6 +50,7 @@ const TOTAL_QUESTIONS = 22;
 const INITIAL_TIME = 40 * 60; // 40 minutes in seconds
 
 export default function ExamPage() {
+  const router = useRouter();
   const [timeRemaining, setTimeRemaining] = useState(INITIAL_TIME);
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState<
@@ -126,11 +128,13 @@ export default function ExamPage() {
 
   const handleSubmitTest = useCallback(() => {
     const attempted = Object.keys(selectedOptions).length;
-    const marked = markedForReview.size;
-    alert(
-      `Submit Test?\n\nAttempted: ${attempted}/${TOTAL_QUESTIONS}\nMarked for Review: ${marked}`
+    const confirmSubmit = window.confirm(
+      `Are you sure you want to submit?\n\nAttempted: ${attempted}/${TOTAL_QUESTIONS}\nMarked for Review: ${markedForReview.size}`
     );
-  }, [selectedOptions, markedForReview]);
+    if (confirmSubmit) {
+      router.push(`/submitted?attempted=${attempted}&total=${TOTAL_QUESTIONS}`);
+    }
+  }, [selectedOptions, markedForReview, router]);
 
   // Get current question data (cycle through sample questions for demo)
   const currentQuestionData =
