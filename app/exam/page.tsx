@@ -168,18 +168,8 @@ export default function ExamPage() {
             </div>
           </main>
 
-          <footer className="border-t border-border bg-card px-6 py-3">
-            <div className="flex items-center justify-center gap-4">
-              <span className="text-xs text-muted-foreground">
-                Question {currentQuestion} of {TOTAL_QUESTIONS}
-              </span>
-              <Link href="/review" prefetch={false}>
-                <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
-                  <BookOpen className="h-3.5 w-3.5" />
-                  Review Mode
-                </Button>
-              </Link>
-            </div>
+          <footer className="border-t border-border bg-card px-6 py-3 text-center text-xs text-muted-foreground">
+            Question {currentQuestion} of {TOTAL_QUESTIONS}
           </footer>
         </div>
 
