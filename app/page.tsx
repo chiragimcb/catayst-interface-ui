@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { ExamHeader } from "@/components/exam-header";
 import { QuestionCard } from "@/components/question-card";
 import { ExamActions } from "@/components/exam-actions";
+import { Button } from "@/components/ui/button";
+import { BookOpen } from "lucide-react";
 
 const sampleQuestion = {
   id: 1,
@@ -74,8 +77,18 @@ export default function ExamPage() {
         </div>
       </main>
 
-      <footer className="border-t border-border bg-card px-6 py-3 text-center text-xs text-muted-foreground">
-        Question 1 of 22
+      <footer className="border-t border-border bg-card px-6 py-3">
+        <div className="flex items-center justify-center gap-4">
+          <span className="text-xs text-muted-foreground">
+            Question 1 of 22
+          </span>
+          <Link href="/review">
+            <Button variant="ghost" size="sm" className="gap-1.5 text-xs">
+              <BookOpen className="h-3.5 w-3.5" />
+              Review Mode
+            </Button>
+          </Link>
+        </div>
       </footer>
     </div>
   );
