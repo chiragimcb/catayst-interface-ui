@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Flag, PanelLeftClose, PanelLeft } from "lucide-react";
+import { Flag, PanelRightClose, PanelRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type QuestionStatus = "not-visited" | "attempted" | "marked-for-review";
@@ -56,7 +56,7 @@ export function QuestionNavigator({
   return (
     <aside
       className={cn(
-        "flex h-full flex-col border-r border-border bg-card transition-all duration-300",
+        "flex h-full flex-col border-l border-border bg-card transition-all duration-300",
         isCollapsed ? "w-14" : "w-64"
       )}
     >
@@ -75,9 +75,9 @@ export function QuestionNavigator({
           aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           {isCollapsed ? (
-            <PanelLeft className="h-4 w-4" />
+            <PanelRight className="h-4 w-4" />
           ) : (
-            <PanelLeftClose className="h-4 w-4" />
+            <PanelRightClose className="h-4 w-4" />
           )}
         </Button>
       </div>

@@ -143,17 +143,6 @@ export default function ExamPage() {
       <ExamHeader title="CAT Quant Sectional 1" timeRemaining={timeRemaining} />
 
       <div className="flex flex-1 overflow-hidden">
-        {/* Collapsible Sidebar */}
-        <QuestionNavigator
-          totalQuestions={TOTAL_QUESTIONS}
-          currentQuestion={currentQuestion}
-          questionStatuses={questionStatuses}
-          isCollapsed={isSidebarCollapsed}
-          onToggleCollapse={handleToggleSidebar}
-          onSelectQuestion={handleSelectQuestion}
-          onSubmitTest={handleSubmitTest}
-        />
-
         {/* Main Content Area */}
         <div className="flex flex-1 flex-col overflow-y-auto">
           <main className="flex flex-1 flex-col items-center px-4 py-8">
@@ -189,6 +178,17 @@ export default function ExamPage() {
             </div>
           </footer>
         </div>
+
+        {/* Collapsible Sidebar - Right Side */}
+        <QuestionNavigator
+          totalQuestions={TOTAL_QUESTIONS}
+          currentQuestion={currentQuestion}
+          questionStatuses={questionStatuses}
+          isCollapsed={isSidebarCollapsed}
+          onToggleCollapse={handleToggleSidebar}
+          onSelectQuestion={handleSelectQuestion}
+          onSubmitTest={handleSubmitTest}
+        />
       </div>
     </div>
   );
