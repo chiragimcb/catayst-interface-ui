@@ -8,6 +8,10 @@ import { SolutionButtons } from "@/components/solution-buttons";
 import { QuestionMetadata, type Difficulty } from "@/components/question-metadata";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, BookOpen } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css"; // IMPORTANT: This provides the math styling
 
 const sampleQuestion = {
   id: 1,
@@ -26,6 +30,9 @@ const sampleQuestion = {
 
 export default function ReviewPage() {
   const [reasoning, setReasoning] = useState("");
+  const [isAnalyzing, setIsAnalyzing] = useState(false); 
+  const [aiFeedback, setAiFeedback] = useState<string | null>(null);  
+
 
   const hasReasoning = reasoning.trim().length > 0;
 
@@ -37,8 +44,30 @@ export default function ReviewPage() {
     alert("Opening descriptive answer...");
   }, []);
 
-  const handleEvaluateWithAI = useCallback(() => {
-    alert(`Evaluating your reasoning:\n\n"${reasoning}"`);
+  const handleEvaluateWithAI = useCallback(async () => {
+    if (!reasoning.trim()) return;
+    
+    setIsAnalyzing(true);
+    setAiFeedback(null); // Clear previous feedback
+
+    try {
+      const response = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question: sampleQuestion.text,
+          reasoning: reasoning,
+          correctAnswer: sampleQuestion.correctAnswer,
+        }),
+      });
+
+      const data = await response.json();
+      setAiFeedback(data.analysis);
+    } catch (error) {
+      setAiFeedback("Ouch! I had trouble connecting to my brain. Try again?");
+    } finally {
+      setIsAnalyzing(false);
+    }
   }, [reasoning]);
 
   return (
@@ -84,17 +113,58 @@ export default function ReviewPage() {
             />
           </div>
 
+          {/* AI Feedback Card */}
+          {(isAnalyzing || aiFeedback) && (
+            <div className={`rounded-lg border p-5 shadow-sm transition-all duration-300 ${
+              isAnalyzing ? "animate-pulse border-primary/30 bg-primary/5" : "border-primary/20 bg-primary/5"
+            }`}>
+              <div className="flex items-center gap-2 mb-3">
+                <div className="h-2 w-2 rounded-full bg-primary" />
+                <span className="text-sm font-bold tracking-tight text-primary uppercase">
+                  Socratic Coach
+                </span>
+              </div>
+              
+              {isAnalyzing ? (
+                <p className="text-sm text-muted-foreground italic">Analyzing your logic...</p>
+              ) : (
+                <div className="prose prose-sm dark:prose-invert">
+                  <p className="text-sm leading-relaxed text-foreground whitespace-pre-line">
+                    {/* Inside your AI Feedback Card */}
+                    <div className="prose prose-sm dark:prose-invert max-w-none">
+                      <ReactMarkdown
+                        remarkPlugins={[remarkMath]}
+                        rehypePlugins={[rehypeKatex]}
+                      >
+                        {aiFeedback}
+                      </ReactMarkdown>
+                    </div>
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Solution buttons */}
           <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
             <SolutionButtons
-              isEnabled={hasReasoning}
+              isEnabled={hasReasoning && !isAnalyzing} 
               onViewVideo={handleViewVideo}
               onViewDescriptive={handleViewDescriptive}
               onEvaluateWithAI={handleEvaluateWithAI}
+              // Pro-tip: Pass a "label" prop to SolutionButtons if you can, 
+              // to change "Evaluate with AI" to "Refine with AI" once aiFeedback exists.
             />
-            {!hasReasoning && (
+            
+            {isAnalyzing && (
+              <p className="mt-3 text-center text-xs font-medium text-primary animate-pulse">
+                Coach is thinking...
+              </p>
+            )}
+
+            {!hasReasoning && !isAnalyzing && (
               <p className="mt-3 text-center text-xs text-muted-foreground">
-                Enter your reasoning above to unlock solution options.
+                Enter your reasoning above to unlock the Socratic Coach.
               </p>
             )}
           </div>
