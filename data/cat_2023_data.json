@@ -1,0 +1,204 @@
+[
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "A triangle ABC is formed with AB = AC = 50 cm and BC = 80 cm. Then, the sum of the lengths, in cm, of all three altitudes of the triangle ABC is",
+        "options": [],
+        "answer": "126"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "In an arithmetic progression, if the sum of fourth, seventh and tenth terms is 99, and the sum of the first fourteen terms is 497, then the sum of first five terms is",
+        "options": [],
+        "answer": "65"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "ABCD is a trapezium in which AB is parallel to \\( \\mathrm { DC } , \\mathrm { AD } \\) is perpendicular to\nAB , and \\( \\mathrm { AB } = 3 \\mathrm { DC } \\). If a circle inscribed in the trapezium touching all the sides\nhas a radius of 3 cm , then the area, in sq. cm , of the trapezium is",
+        "options": [
+            "\\( 36 \\sqrt { 2 } \\)",
+            "\\( 54 \\)",
+            "\\( 48 \\)",
+            "\\( 30 \\sqrt { 3 } \\)"
+        ],
+        "answer": "Choice C \\( 48 \\)"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "If \\( \\left( x ^ { 2 } + \\frac { 1 } { x ^ { 2 } } \\right) = 25 \\) and \\( x > 0 \\), then the value of \\( \\left( x ^ { 7 } + \\frac { 1 } { x ^ { 7 } } \\right) \\) is",
+        "options": [
+            "\\( 44859 \\sqrt { 3 } \\)",
+            "\\( 44856 \\sqrt { 3 } \\)",
+            "\\( 44853 \\sqrt { 3 } \\)",
+            "\\( 44850 \\sqrt { 3 } \\)"
+        ],
+        "answer": "Choice C \\( 44853 \\sqrt { 3 } \\)"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "The monthly sales of a product from January to April were 120, 135, 150 and 165 units, respectively. The cost price of the product was Rs. 240 per unit, and a fixed marked price was used for the product in all the four months. Discounts of 20%, 10% and 5% were given on the marked price per unit in January, February and March, respectively, while no discounts were given in April. If the total profit from January to April was Rs. 138825, then the marked price per unit, in rupees, was",
+        "options": [
+            "525",
+            "520",
+            "510",
+            "515"
+        ],
+        "answer": "Choice A 525"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "Rahul starts on his journey at 5 pm at a constant speed so that he reaches his destination at 11 pm the same day. However, on his way, he stops for 20 minutes, and after that, increases his speed by 3 km per hour to reach on time. If he had stopped for 10 minutes more, he would have had to increase his speed by 5 km per hour to reach on time. His initial speed, in km per hour, was",
+        "options": [
+            "18",
+            "12",
+            "20",
+            "15"
+        ],
+        "answer": "Choice D 15"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "The sum of all possible real values of \\( x \\) for which\n\\( \\log _ { x - 3 } \\left( x ^ { 2 } - 9 \\right) = \\log _ { x - 3 } ( x + 1 ) + 2 \\), is",
+        "options": [
+            "\\( - 3 \\)",
+            "\\( \\sqrt { 33 } \\)",
+            "\\( \\frac { 3 + \\sqrt { 33 } } { 2 } \\)",
+            "\\( 3 \\)"
+        ],
+        "answer": "Choice C \\( \\frac { 3 + \\sqrt { 33 } } { 2 } \\)"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "The ratio of the number of coins in boxes A and B was 17:7. After 108 coins were shifted from box A to box B, this ratio became 37:20. The number of coins that needs to be shifted further from A to B, to make this ratio 1:1, is",
+        "options": [],
+        "answer": "272"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "If \\( 12 ^ { 12 x } \\times 4 ^ { 24 x + 12 } \\times 5 ^ { 2 y } = 8 ^ { 4 z } \\times 20 ^ { 12 x } \\times 243 ^ { 3 x - 6 } \\), where \\( x , y \\) and \\( z \\) are\nnatural numbers, then \\( x + y + z \\) equals",
+        "options": [],
+        "answer": "112"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "Teams A, B, and C consist of five, eight, and ten members, respectively, such that every member within a team is equally productive. Working separately, teams A, B, and C can complete a certain job in 40 hours, 50 hours, and 4 hours, respectively. Two members from team A, three members from team B, and one member from team C together start the job, and the member from team C leaves after 23 hours. The number of additional member(s) from team B, that would be required to replace the member from team C, to finish the job in the next one hour, is",
+        "options": [
+            "2",
+            "4",
+            "1",
+            "3"
+        ],
+        "answer": "Choice A 2"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "If \\( f ( x ) = \\left( x ^ { 2 } + 3 x \\right) \\left( x ^ { 2 } + 3 x + 2 \\right) \\), then the sum of all real roots of the\nequation \\( \\sqrt { f ( x ) + 1 } = 9701 \\), is",
+        "options": [
+            "\\( 6 \\)",
+            "\\( - 3 \\)",
+            "\\( - 6 \\)",
+            "\\( 3 \\)"
+        ],
+        "answer": "Choice B \\( - 3 \\)"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "The average salary of 5 managers and 25 engineers in a company is 60000 rupees. If each of the managers received 20% salary increase while the salary of the engineers remained unchanged, the average salary of all 30 employees would have increased by 5%. The average salary, in rupees, of the engineers is",
+        "options": [
+            "54000",
+            "40000",
+            "45000",
+            "50000"
+        ],
+        "answer": "Choice A 54000"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "In a school with 1500 students, each student chooses any one of the streams out of science, arts, and commerce, by paying a fee of Rs 1100, Rs 1000, and Rs 800, respectively. The total fee paid by all the students is Rs 15,50,000. If the number of science students is not more than the number of arts students, then the maximum possible number of science students in the school is",
+        "options": [],
+        "answer": "700"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "In a class of 150 students, 75 students chose physics, 111 students chose mathematics and 40 students chose chemistry. All students chose at least one of the three subjects and at least one student chose all three subjects. The number of students who chose both physics and chemistry is equal to the number of students who chose both chemistry and mathematics, and this is half the number of students who chose both physics and mathematics. The maximum possible number of students who chose physics but not mathematics, is",
+        "options": [
+            "30",
+            "35",
+            "40",
+            "55"
+        ],
+        "answer": "Choice B 35"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "For real values of \\( x \\), the range of the function \\( f ( x ) = \\frac { 2 x - 3 } { 2 x ^ { 2 } + 4 x - 6 } \\) is",
+        "options": [
+            "\\( \\left( - \\infty , \\frac { 1 } { 8 } \\right] \\cup [ 1 , \\infty ) \\)",
+            "\\( \\left( - \\infty , \\frac { 1 } { 8 } \\right] \\cup \\left[ \\frac { 1 } { 2 } , \\infty \\right) \\)",
+            "\\( \\left( - \\infty , \\frac { 1 } { 4 } \\right] \\cup \\left[ \\frac { 1 } { 2 } , \\infty \\right) \\)",
+            "\\( \\left( - \\infty , \\frac { 1 } { 4 } \\right] \\cup [ 1 , \\infty ) \\)"
+        ],
+        "answer": "Choice B \\( \\left( - \\infty , \\frac { 1 } { 8 } \\right] \\cup \\left[ \\frac { 1 } { 2 } , \\infty \\right) \\)"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "Ankita walks from A to C through B, and runs back through the same route at a speed that is 40% more than her walking speed. She takes exactly 3 hours 30 minutes to walk from B to C as well as to run from B to A. The total time, in minutes, she would take to walk from A to B and run from B to C, is",
+        "options": [],
+        "answer": "444"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "The sum of all the digits of the number \\( \\left( 10 ^ { 50 } + 10 ^ { 25 } - 123 \\right) \\), is",
+        "options": [
+            "\\( 324 \\)",
+            "\\( 221 \\)",
+            "\\( 212 \\)",
+            "\\( 255 \\)"
+        ],
+        "answer": "Choice B \\( 221 \\)"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "In \\( \\triangle A B C , A B = A C = 12 \\mathrm {~cm} \\) and \\( D \\) is a point on side \\( B C \\) such that \\( A D = 8 \\mathrm {~cm} \\). If \\( A D \\) is\nextended to a point \\( E \\) such that \\( \\angle A C B = \\angle A E B \\), then the length, in cm , of \\( A E \\) is",
+        "options": [
+            "\\( 14 \\)",
+            "\\( 20 \\)",
+            "\\( 18 \\)",
+            "\\( 16 \\)"
+        ],
+        "answer": "Choice C \\( 18 \\)"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "The rate of water flow through three pipes A, B and C are in the ratio 4 : 9 : 36. An empty tank can be filled up completely by pipe A in 15 hours. If all the three pipes are used simultaneously to fill up this empty tank, the time, in minutes, required to fill up the entire tank completely is nearest to",
+        "options": [
+            "73",
+            "76",
+            "78",
+            "71"
+        ],
+        "answer": "Choice A 73"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "For a 4-digit number (greater than 1000), sum of the digits in the thousands, hundreds, and tens places is 15. Sum of the digits in the hundreds, tens, and units places is 16. Also, the digit in the tens place is 6 more than the digit in the units place. The difference between the largest and smallest possible value of the number is",
+        "options": [
+            "4078",
+            "3289",
+            "811",
+            "735"
+        ],
+        "answer": "Choice C 811"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "Let p, q and r be three natural numbers such that their sum is 900, and r is a perfect square whose value lies between 150 and 500. If p is not less than 0.3q and not more than 0.7q, then the sum of the maximum and minimum possible values of p is",
+        "options": [],
+        "answer": "397"
+    },
+    {
+        "exam": "CAT 2025 Slot 3 - QA",
+        "question": "Vessels A and B contain 60 litres of alcohol and 60 litres of water, respectively. A certain volume is taken out from A and poured into B. After stirring, the same volume is taken out from B and poured into A. If the resultant ratio of alcohol and water in A is 15 : 4, then the volume, in litres, initially taken out from A is",
+        "options": [],
+        "answer": "16"
+    }
+]

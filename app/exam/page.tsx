@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ExamHeader } from "@/components/exam-header";
@@ -12,6 +12,7 @@ import {
 } from "@/components/question-navigator";
 import { Button } from "@/components/ui/button";
 import { BookOpen } from "lucide-react";
+import { getQuestions } from "@/lib/questions";
 
 const sampleQuestions = [
   {
@@ -51,6 +52,9 @@ const INITIAL_TIME = 40 * 60; // 40 minutes in seconds
 
 export default function ExamPage() {
   const router = useRouter();
+
+  // 1. Load the questions once using useMemo to avoid re-calculating on every render
+  const questions = useMemo(() => getQuestions(), []);
   const [timeRemaining, setTimeRemaining] = useState(INITIAL_TIME);
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState<
@@ -60,7 +64,7 @@ export default function ExamPage() {
     new Set()
   );
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-
+  
   // Initialize question statuses
   const questionStatuses: QuestionStatus[] = Array.from(
     { length: TOTAL_QUESTIONS },
@@ -136,9 +140,11 @@ export default function ExamPage() {
     }
   }, [selectedOptions, markedForReview, router]);
 
-  // Get current question data (cycle through sample questions for demo)
-  const currentQuestionData =
-    sampleQuestions[(currentQuestion - 1) % sampleQuestions.length];
+  const currentQuestionData = questions[currentQuestion - 1];
+
+  // 3. Handle cases where questions might be missing (safety check)
+  if (!currentQuestionData) return <div>Loading...</div>;
+
   const selectedOption = selectedOptions[currentQuestion] || null;
   const isMarkedForReview = markedForReview.has(currentQuestion);
 
@@ -154,8 +160,8 @@ export default function ExamPage() {
               <QuestionCard
                 questionNumber={currentQuestion}
                 questionText={currentQuestionData.text}
-                options={currentQuestionData.options}
-                selectedOption={selectedOption}
+                options={currentQuestionData.options} // Now supports empty arrays for TITA
+                selectedOption={selectedOptions[currentQuestion] || null}
                 onSelectOption={handleSelectOption}
               />
 
