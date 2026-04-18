@@ -1,180 +1,228 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import Link from "next/link";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { useRouter } from "next/navigation";
 import { ReviewQuestionCard } from "@/components/review-question-card";
+import { ReviewAnalysis } from "@/components/review-analysis";
 import { ReasoningInput } from "@/components/reasoning-input";
 import { SolutionButtons } from "@/components/solution-buttons";
-import { QuestionMetadata, type Difficulty } from "@/components/question-metadata";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, BookOpen } from "lucide-react";
-import ReactMarkdown from "react-markdown";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
-import "katex/dist/katex.min.css"; // IMPORTANT: This provides the math styling
+import {
+  BookOpen,
+  LayoutGrid,
+  ChevronLeft,
+  ChevronRight,
+  Clock,
+} from "lucide-react";
+import "katex/dist/katex.min.css";
 
-const sampleQuestion = {
-  id: 1,
-  text: "If $x^2 + \\sqrt{y} = 25$ and $y = 16$, what is the value of $x$?",
-  options: [
-    { id: "a", label: "A", text: "$\\pm 3$" },
-    { id: "b", label: "B", text: "$\\pm \\sqrt{21}$" },
-    { id: "c", label: "C", text: "$\\pm 5$" },
-    { id: "d", label: "D", text: "$\\pm 4$" },
-  ],
-  correctAnswer: "B",
-  topic: "Algebra - Logarithms",
-  difficulty: "hard" as Difficulty,
-  timeSpent: "2:45 mins",
-};
+interface AnalysisData {
+  critique: string;
+  traditional: string;
+  smart: string;
+}
+
+// The manifest structure we built in the Exam page
+interface SessionResponse {
+  id: number;
+  text: string;
+  options: any[];
+  difficulty: "Easy" | "Medium" | "Tough";
+  userAnswer: string | null;
+  correctAnswer: string;
+  isCorrect: boolean;
+  timeSpent: number;
+}
 
 export default function ReviewPage() {
+  const router = useRouter();
+
+  // 1. Data States
+  const [sessionResponses, setSessionResponses] = useState<SessionResponse[]>(
+    [],
+  );
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [reasoning, setReasoning] = useState("");
-  const [isAnalyzing, setIsAnalyzing] = useState(false); 
-  const [aiFeedback, setAiFeedback] = useState<string | null>(null);  
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);
+  const [loggedType, setLoggedType] = useState<string | null>(null);
 
+  // 2. Load Real Session Data
+  useEffect(() => {
+    const rawData = localStorage.getItem("cat_session_result");
+    if (rawData) {
+      const parsed = JSON.parse(rawData);
+      setSessionResponses(parsed.responses);
+    } else {
+      router.push("/"); // Fallback if no exam found
+    }
+  }, [router]);
 
-  const hasReasoning = reasoning.trim().length > 0;
+  const currentQuestion = sessionResponses[currentIndex];
 
-  const handleViewVideo = useCallback(() => {
-    alert("Opening video solution...");
-  }, []);
+  // 3. Reset UI when switching questions
+  useEffect(() => {
+    setReasoning("");
+    setAnalysisData(null);
+    setLoggedType(null);
+  }, [currentIndex]);
 
-  const handleViewDescriptive = useCallback(() => {
-    alert("Opening descriptive answer...");
-  }, []);
+  // 4. Grouping for Sidebar
+  const grouped = useMemo(() => {
+    return {
+      Easy: sessionResponses.filter((r) => r.difficulty === "Easy"),
+      Medium: sessionResponses.filter((r) => r.difficulty === "Medium"),
+      Tough: sessionResponses.filter((r) => r.difficulty === "Tough"),
+    };
+  }, [sessionResponses]);
 
+  // Handlers
   const handleEvaluateWithAI = useCallback(async () => {
-    if (!reasoning.trim()) return;
-    
+    if (!reasoning.trim() || !currentQuestion) return;
     setIsAnalyzing(true);
-    setAiFeedback(null); // Clear previous feedback
+    setAnalysisData(null);
 
     try {
       const response = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          question: sampleQuestion.text,
+          question: currentQuestion.text,
           reasoning: reasoning,
-          correctAnswer: sampleQuestion.correctAnswer,
+          correctAnswer: currentQuestion.correctAnswer,
         }),
       });
-
       const data = await response.json();
-      setAiFeedback(data.analysis);
+      setAnalysisData(data);
     } catch (error) {
-      setAiFeedback("Ouch! I had trouble connecting to my brain. Try again?");
+      console.error("Analysis failed", error);
     } finally {
       setIsAnalyzing(false);
     }
-  }, [reasoning]);
+  }, [reasoning, currentQuestion]);
+
+  if (!currentQuestion)
+    return <div className="p-10 text-center">Loading Session...</div>;
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="flex h-screen flex-col bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-border bg-card shadow-sm">
-        <div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-4">
-          <div className="flex items-center gap-3">
-            <BookOpen className="h-5 w-5 text-primary" />
-            <h1 className="text-lg font-semibold text-foreground">
-              Guided Review Session
-            </h1>
+      <header className="border-b border-border bg-card px-6 py-4 flex justify-between items-center shrink-0">
+        <div className="flex items-center gap-3">
+          <BookOpen className="h-5 w-5 text-primary" />
+          <h1 className="text-lg font-semibold uppercase tracking-tight">
+            Review Dashboard
+          </h1>
+        </div>
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground font-medium">
+            <Clock className="w-4 h-4" /> {currentQuestion.timeSpent}s spent
           </div>
-          <Link href="/exam">
-            <Button variant="ghost" size="sm" className="gap-1.5">
-              <ArrowLeft className="h-4 w-4" />
-              Back to Exam
-            </Button>
-          </Link>
+          <Button variant="outline" size="sm" onClick={() => router.push("/")}>
+            Exit
+          </Button>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex flex-1 flex-col items-center px-4 py-8">
-        <div className="w-full max-w-2xl space-y-6">
-          {/* Question with correct answer highlighted */}
-          <ReviewQuestionCard
-            questionNumber={sampleQuestion.id}
-            questionText={sampleQuestion.text}
-            options={sampleQuestion.options}
-            correctAnswer={sampleQuestion.correctAnswer}
-          />
-
-          {/* Reasoning input area */}
-          <ReasoningInput value={reasoning} onChange={setReasoning} />
-
-          {/* Question metadata badges */}
-          <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
-            <QuestionMetadata
-              topic={sampleQuestion.topic}
-              difficulty={sampleQuestion.difficulty}
-              timeSpent={sampleQuestion.timeSpent}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Main Review Content */}
+        <main className="flex-1 overflow-y-auto bg-slate-50/30">
+          <div className="mx-auto max-w-2xl px-4 py-8 space-y-6 pb-24">
+            <ReviewQuestionCard
+              questionNumber={currentIndex + 1}
+              questionText={currentQuestion.text}
+              options={currentQuestion.options}
+              correctAnswer={currentQuestion.correctAnswer}
+              userAnswer={currentQuestion.userAnswer} // New prop for visual comparison
             />
-          </div>
 
-          {/* AI Feedback Card */}
-          {(isAnalyzing || aiFeedback) && (
-            <div className={`rounded-lg border p-5 shadow-sm transition-all duration-300 ${
-              isAnalyzing ? "animate-pulse border-primary/30 bg-primary/5" : "border-primary/20 bg-primary/5"
-            }`}>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="h-2 w-2 rounded-full bg-primary" />
-                <span className="text-sm font-bold tracking-tight text-primary uppercase">
-                  Socratic Coach
-                </span>
-              </div>
-              
-              {isAnalyzing ? (
-                <p className="text-sm text-muted-foreground italic">Analyzing your logic...</p>
-              ) : (
-                <div className="prose prose-sm dark:prose-invert">
-                  <p className="text-sm leading-relaxed text-foreground whitespace-pre-line">
-                    {/* Inside your AI Feedback Card */}
-                    <div className="prose prose-sm dark:prose-invert max-w-none">
-                      <ReactMarkdown
-                        remarkPlugins={[remarkMath]}
-                        rehypePlugins={[rehypeKatex]}
-                      >
-                        {aiFeedback}
-                      </ReactMarkdown>
-                    </div>
-                  </p>
-                </div>
-              )}
+            <ReasoningInput value={reasoning} onChange={setReasoning} />
+
+            {(isAnalyzing || analysisData) && (
+              <ReviewAnalysis
+                studentExplanation={reasoning}
+                analysisData={analysisData}
+                isLoading={isAnalyzing}
+                onLogEntry={(type) => setLoggedType(type)}
+                loggedType={loggedType}
+              />
+            )}
+
+            <div className="rounded-xl border bg-card p-6 shadow-sm">
+              <SolutionButtons
+                isEnabled={reasoning.trim().length > 0 && !isAnalyzing}
+                onEvaluateWithAI={handleEvaluateWithAI}
+                onViewVideo={() => alert("Video coming soon")}
+                onViewDescriptive={() => alert("Solution coming soon")}
+              />
             </div>
-          )}
-
-          {/* Solution buttons */}
-          <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
-            <SolutionButtons
-              isEnabled={hasReasoning && !isAnalyzing} 
-              onViewVideo={handleViewVideo}
-              onViewDescriptive={handleViewDescriptive}
-              onEvaluateWithAI={handleEvaluateWithAI}
-              // Pro-tip: Pass a "label" prop to SolutionButtons if you can, 
-              // to change "Evaluate with AI" to "Refine with AI" once aiFeedback exists.
-            />
-            
-            {isAnalyzing && (
-              <p className="mt-3 text-center text-xs font-medium text-primary animate-pulse">
-                Coach is thinking...
-              </p>
-            )}
-
-            {!hasReasoning && !isAnalyzing && (
-              <p className="mt-3 text-center text-xs text-muted-foreground">
-                Enter your reasoning above to unlock the Socratic Coach.
-              </p>
-            )}
           </div>
-        </div>
-      </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-card px-6 py-3 text-center text-xs text-muted-foreground">
-        Question 1 of 22 &middot; Review Mode
-      </footer>
+          {/* Navigation Bar */}
+          <div className="fixed bottom-0 left-0 right-[320px] bg-background/90 backdrop-blur-md border-t px-8 py-4 flex justify-between items-center">
+            <Button
+              variant="ghost"
+              onClick={() => setCurrentIndex((i) => i - 1)}
+              disabled={currentIndex === 0}
+            >
+              <ChevronLeft className="w-4 h-4 mr-2" /> Previous
+            </Button>
+            <div className="text-sm font-semibold text-slate-500">
+              Question {currentIndex + 1} of {sessionResponses.length}
+            </div>
+            <Button
+              variant="ghost"
+              onClick={() => setCurrentIndex((i) => i + 1)}
+              disabled={currentIndex === sessionResponses.length - 1}
+            >
+              Next <ChevronRight className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
+        </main>
+
+        {/* Diagnostic Sidebar */}
+        <aside className="w-80 border-l bg-card p-6 overflow-y-auto hidden md:block">
+          <div className="flex items-center gap-2 mb-6 font-bold text-slate-800">
+            <LayoutGrid className="w-4 h-4" /> Question Palette
+          </div>
+
+          {Object.entries(grouped).map(
+            ([level, questions]) =>
+              questions.length > 0 && (
+                <div key={level} className="mb-8">
+                  <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">
+                    {level} Level
+                  </h3>
+                  <div className="grid grid-cols-5 gap-2">
+                    {questions.map((q) => {
+                      const originalIdx = sessionResponses.findIndex(
+                        (r) => r.id === q.id,
+                      );
+                      return (
+                        <button
+                          key={q.id}
+                          onClick={() => setCurrentIndex(originalIdx)}
+                          className={`h-9 w-9 rounded-md text-[11px] font-bold border transition-all
+                          ${currentIndex === originalIdx ? "ring-2 ring-primary ring-offset-2" : ""}
+                          ${
+                            !q.userAnswer
+                              ? "bg-slate-50 text-slate-400 border-slate-200"
+                              : q.isCorrect
+                                ? "bg-green-100 text-green-700 border-green-200"
+                                : "bg-red-100 text-red-700 border-red-200"
+                          }
+                        `}
+                        >
+                          {originalIdx + 1}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ),
+          )}
+        </aside>
+      </div>
     </div>
   );
 }

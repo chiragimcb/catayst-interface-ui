@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { ExamHeader } from "@/components/exam-header";
 import { QuestionCard } from "@/components/question-card";
 import { ExamActions } from "@/components/exam-actions";
@@ -10,176 +9,164 @@ import {
   QuestionNavigator,
   type QuestionStatus,
 } from "@/components/question-navigator";
-import { Button } from "@/components/ui/button";
-import { BookOpen } from "lucide-react";
 import { getQuestions } from "@/lib/questions";
 
-const sampleQuestions = [
-  {
-    id: 1,
-    text: "If $x^2 + \\sqrt{y} = 25$ and $y = 16$, what is the value of $x$?",
-    options: [
-      { id: "a", label: "A", text: "$\\pm 3$" },
-      { id: "b", label: "B", text: "$\\pm \\sqrt{21}$" },
-      { id: "c", label: "C", text: "$\\pm 5$" },
-      { id: "d", label: "D", text: "$\\pm 4$" },
-    ],
-  },
-  {
-    id: 2,
-    text: "What is the sum of the first 10 terms of the arithmetic progression $3, 7, 11, 15, ...$?",
-    options: [
-      { id: "a", label: "A", text: "$210$" },
-      { id: "b", label: "B", text: "$200$" },
-      { id: "c", label: "C", text: "$195$" },
-      { id: "d", label: "D", text: "$180$" },
-    ],
-  },
-  {
-    id: 3,
-    text: "If $\\log_2(x) + \\log_2(x-2) = 3$, find the value of $x$.",
-    options: [
-      { id: "a", label: "A", text: "$4$" },
-      { id: "b", label: "B", text: "$6$" },
-      { id: "c", label: "C", text: "$8$" },
-      { id: "d", label: "D", text: "$2$" },
-    ],
-  },
-];
-
 const TOTAL_QUESTIONS = 22;
-const INITIAL_TIME = 40 * 60; // 40 minutes in seconds
+const INITIAL_TIME = 40 * 60; // 40 minutes
 
 export default function ExamPage() {
   const router = useRouter();
 
-  // 1. Load the questions once using useMemo to avoid re-calculating on every render
-  const questions = useMemo(() => getQuestions(), []);
+  // 1. Data Initialization
+  const allQuestions = useMemo(() => getQuestions(), []);
+
+  // 2. States
   const [timeRemaining, setTimeRemaining] = useState(INITIAL_TIME);
-  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [currentQuestion, setCurrentQuestion] = useState(1); // 1-indexed for UI
   const [selectedOptions, setSelectedOptions] = useState<
     Record<number, string | null>
   >({});
   const [markedForReview, setMarkedForReview] = useState<Set<number>>(
-    new Set()
+    new Set(),
   );
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  
-  // Initialize question statuses
+
+  // 3. Time Tracking State (Professional Metric)
+  const [timeSpentPerQuestion, setTimeSpentPerQuestion] = useState<
+    Record<number, number>
+  >({});
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // 4. Timer Logic: Tracks total time AND per-question time
+  useEffect(() => {
+    timerRef.current = setInterval(() => {
+      setTimeRemaining((prev) => (prev > 0 ? prev - 1 : 0));
+
+      // Increment time for the current active question
+      setTimeSpentPerQuestion((prev) => ({
+        ...prev,
+        [currentQuestion]: (prev[currentQuestion] || 0) + 1,
+      }));
+    }, 1000);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [currentQuestion]);
+
+  // 5. Question Navigator Statuses
   const questionStatuses: QuestionStatus[] = Array.from(
     { length: TOTAL_QUESTIONS },
     (_, i) => {
-      const questionNum = i + 1;
-      if (markedForReview.has(questionNum)) {
-        return "marked-for-review";
-      }
-      if (selectedOptions[questionNum]) {
-        return "attempted";
-      }
+      const qNum = i + 1;
+      if (markedForReview.has(qNum)) return "marked-for-review";
+      if (selectedOptions[qNum]) return "attempted";
       return "not-visited";
-    }
+    },
   );
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeRemaining((prev) => {
-        if (prev <= 0) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
+  // 6. Handlers
   const handleSelectOption = useCallback(
     (optionId: string) => {
-      setSelectedOptions((prev) => ({
-        ...prev,
-        [currentQuestion]: optionId,
-      }));
+      setSelectedOptions((prev) => ({ ...prev, [currentQuestion]: optionId }));
     },
-    [currentQuestion]
+    [currentQuestion],
   );
 
   const handleMarkForReview = useCallback(() => {
     setMarkedForReview((prev) => {
       const newSet = new Set(prev);
-      if (newSet.has(currentQuestion)) {
-        newSet.delete(currentQuestion);
-      } else {
-        newSet.add(currentQuestion);
-      }
+      newSet.has(currentQuestion)
+        ? newSet.delete(currentQuestion)
+        : newSet.add(currentQuestion);
       return newSet;
     });
   }, [currentQuestion]);
 
   const handleNextQuestion = useCallback(() => {
-    if (currentQuestion < TOTAL_QUESTIONS) {
+    if (currentQuestion < TOTAL_QUESTIONS)
       setCurrentQuestion((prev) => prev + 1);
-    }
   }, [currentQuestion]);
 
-  const handleSelectQuestion = useCallback((questionNumber: number) => {
-    setCurrentQuestion(questionNumber);
-  }, []);
+  const handleSelectQuestion = useCallback(
+    (num: number) => setCurrentQuestion(num),
+    [],
+  );
+  const handleToggleSidebar = useCallback(
+    () => setIsSidebarCollapsed((p) => !p),
+    [],
+  );
 
-  const handleToggleSidebar = useCallback(() => {
-    setIsSidebarCollapsed((prev) => !prev);
-  }, []);
-
+  // 7. THE MASTER SUBMIT FUNCTION: Compiles all data and navigates to review page
   const handleSubmitTest = useCallback(() => {
-    const attempted = Object.keys(selectedOptions).length;
+    const attemptedCount = Object.keys(selectedOptions).length;
     const confirmSubmit = window.confirm(
-      `Are you sure you want to submit?\n\nAttempted: ${attempted}/${TOTAL_QUESTIONS}\nMarked for Review: ${markedForReview.size}`
+      `Submit Exam?\nAttempted: ${attemptedCount}/${TOTAL_QUESTIONS}`,
     );
+
     if (confirmSubmit) {
-      router.push(`/submitted?attempted=${attempted}&total=${TOTAL_QUESTIONS}`);
+      const sessionManifest = {
+        sessionId: `CAT-${Date.now()}`,
+        timestamp: new Date().toISOString(),
+        totalQuestions: TOTAL_QUESTIONS,
+        // We map from allQuestions (the source) and combine with user state
+        responses: allQuestions.map((q) => {
+          const userAns = selectedOptions[q.id] || null;
+          return {
+            id: q.id,
+            text: q.text,
+            options: q.options,
+            difficulty: q.difficulty || "Medium",
+            userAnswer: userAns,
+            correctAnswer: q.answer, // Assumes your lib/questions has an 'answer' key
+            isCorrect: userAns === q.answer,
+            timeSpent: timeSpentPerQuestion[q.id] || 0,
+          };
+        }),
+      };
+
+      localStorage.setItem(
+        "cat_session_result",
+        JSON.stringify(sessionManifest),
+      );
+      router.push("/review");
     }
-  }, [selectedOptions, markedForReview, router]);
+  }, [selectedOptions, allQuestions, timeSpentPerQuestion, router]);
 
-  const currentQuestionData = questions[currentQuestion - 1];
-
-  // 3. Handle cases where questions might be missing (safety check)
-  if (!currentQuestionData) return <div>Loading...</div>;
-
-  const selectedOption = selectedOptions[currentQuestion] || null;
-  const isMarkedForReview = markedForReview.has(currentQuestion);
+  // Render Logic
+  const currentQuestionData = allQuestions[currentQuestion - 1];
+  if (!currentQuestionData)
+    return <div className="p-10 text-center">Loading Questions...</div>;
 
   return (
     <div className="flex h-screen flex-col bg-background">
       <ExamHeader title="CAT Quant Sectional 1" timeRemaining={timeRemaining} />
 
       <div className="flex flex-1 overflow-hidden">
-        {/* Main Content Area */}
         <div className="flex flex-1 flex-col overflow-y-auto">
           <main className="flex flex-1 flex-col items-center px-4 py-8">
             <div className="w-full max-w-2xl space-y-6">
               <QuestionCard
                 questionNumber={currentQuestion}
                 questionText={currentQuestionData.text}
-                options={currentQuestionData.options} // Now supports empty arrays for TITA
+                options={currentQuestionData.options}
                 selectedOption={selectedOptions[currentQuestion] || null}
                 onSelectOption={handleSelectOption}
               />
 
               <ExamActions
-                isMarkedForReview={isMarkedForReview}
+                isMarkedForReview={markedForReview.has(currentQuestion)}
                 onMarkForReview={handleMarkForReview}
                 onNextQuestion={handleNextQuestion}
                 isLastQuestion={currentQuestion === TOTAL_QUESTIONS}
               />
             </div>
           </main>
-
           <footer className="border-t border-border bg-card px-6 py-3 text-center text-xs text-muted-foreground">
             Question {currentQuestion} of {TOTAL_QUESTIONS}
           </footer>
         </div>
 
-        {/* Collapsible Sidebar - Right Side */}
         <QuestionNavigator
           totalQuestions={TOTAL_QUESTIONS}
           currentQuestion={currentQuestion}

@@ -20,7 +20,7 @@ interface QuestionCardProps {
   onSelectOption: (optionId: string) => void;
 }
 
-function renderLatex(text: string): string {
+export function renderLatex(text: string): string {
   if (!text) return "";
   
   // 1. Replace 2IIM/standard delimiters \( \) and $ $ with rendered KaTeX
@@ -52,7 +52,7 @@ function renderLatex(text: string): string {
   return rendered;
 }
 
-function MathText({ text }: { text: string }) {
+export function MathText({ text }: { text: string }) {
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
