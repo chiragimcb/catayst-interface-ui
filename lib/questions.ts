@@ -1,4 +1,5 @@
-import questionsData from '@/data/cat_2023_data.json';
+// import questionsData from '@/data/cat_2023_data.json';
+import questionsData from "@/data/gmat_test.json";
 
 export interface Option {
   id: string;
@@ -20,7 +21,7 @@ export const getQuestions = (): Question[] => {
     const transformedOptions = q.options.map((optStr, i) => ({
       id: String.fromCharCode(97 + i), // a, b, c, d
       label: String.fromCharCode(65 + i), // A, B, C, D
-      text: optStr
+      text: optStr,
     }));
 
     return {
@@ -28,7 +29,7 @@ export const getQuestions = (): Question[] => {
       text: q.question,
       options: transformedOptions,
       answer: q.answer,
-      exam: q.exam
+      exam: q.exam,
     };
   });
 };

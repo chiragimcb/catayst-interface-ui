@@ -5,7 +5,8 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
 export async function POST(req: Request) {
   try {
-    const { question, reasoning, correctAnswer } = await req.json();
+    const { question, reasoning, imageBase64, correctAnswer } =
+      await req.json();
 
     if (!process.env.GEMINI_API_KEY) {
       return NextResponse.json({ error: "API Key missing" }, { status: 500 });
@@ -13,17 +14,43 @@ export async function POST(req: Request) {
 
     const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" }); // Stable for JSON
 
-    const prompt = `
-      You are an expert CAT Quant Professor. 
-      Evaluate the student's work:
-      - Question: ${question}
-      - Student's Answer: ${correctAnswer}
-      - Student's Reasoning: "${reasoning}"
+    const prompt: any[] = [
+      {
+        text: `
+          You are an expert CAT (Common Admission Test) Quant Professor and Socratic Coach.
+          
+          ### CONTEXT
+          - Question: ${question}
+          - Correct Answer: ${correctAnswer}
 
-      OUTPUT REQUIREMENT:
-      Return a SINGLE JSON object with keys: "critique", "traditional", "smart".
-      Every value must be a plain string. Do not nest objects.
-    `;
+          ### TASK: EVALUATE & COACH
+          Evaluate the student's reasoning (provided via image or text). 
+          1. Critique (Socratic Layer): Identify logic failures or praise logic. Ask one insightful question.
+          2. Traditional Layer: Provide step-by-step LaTeX solution.
+          3. Smart Layer: Provide CAT shortcuts (triplets, digital sums, etc).
+
+          ### OUTPUT FORMAT
+          Return ONLY a single JSON object. 
+          { "critique": "string", "traditional": "string", "smart": "string" }
+        `,
+      },
+    ];
+
+    // 2. Add the Image Part (if it exists)
+    if (imageBase64) {
+      const base64Data = imageBase64.split(",")[1]; // Remove data:image/jpeg;base64, prefix
+      prompt.push({
+        inlineData: {
+          data: base64Data,
+          mimeType: "image/jpeg",
+        },
+      });
+    }
+
+    // 3. Add the Text Reasoning Part (if it exists)
+    if (reasoning) {
+      prompt.push({ text: `Student's Typed Reasoning: "${reasoning}"` });
+    }
 
     const result = await model.generateContent(prompt);
     const response = await result.response;

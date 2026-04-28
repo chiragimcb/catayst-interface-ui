@@ -46,6 +46,7 @@ export default function ReviewPage() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisData, setAnalysisData] = useState<AnalysisData | null>(null);
   const [loggedType, setLoggedType] = useState<string | null>(null);
+  const [imageBase64, setImageBase64] = useState<string | null>(null);
 
   // 2. Load Real Session Data
   useEffect(() => {
@@ -78,7 +79,9 @@ export default function ReviewPage() {
 
   // Handlers
   const handleEvaluateWithAI = useCallback(async () => {
-    if (!reasoning.trim() || !currentQuestion) return;
+    // Now we check if there is either text OR an image before proceeding
+    if ((!reasoning.trim() && !imageBase64) || !currentQuestion) return;
+
     setIsAnalyzing(true);
     setAnalysisData(null);
 
@@ -89,6 +92,7 @@ export default function ReviewPage() {
         body: JSON.stringify({
           question: currentQuestion.text,
           reasoning: reasoning,
+          imageBase64: imageBase64, // Pass the image string here
           correctAnswer: currentQuestion.correctAnswer,
         }),
       });
@@ -99,7 +103,7 @@ export default function ReviewPage() {
     } finally {
       setIsAnalyzing(false);
     }
-  }, [reasoning, currentQuestion]);
+  }, [reasoning, imageBase64, currentQuestion]);
 
   if (!currentQuestion)
     return <div className="p-10 text-center">Loading Session...</div>;
@@ -136,7 +140,12 @@ export default function ReviewPage() {
               userAnswer={currentQuestion.userAnswer} // New prop for visual comparison
             />
 
-            <ReasoningInput value={reasoning} onChange={setReasoning} />
+            <ReasoningInput
+              value={reasoning}
+              onChange={setReasoning}
+              onImageUpload={(base64) => setImageBase64(base64)}
+              imagePreview={imageBase64}
+            />
 
             {(isAnalyzing || analysisData) && (
               <ReviewAnalysis
@@ -150,7 +159,9 @@ export default function ReviewPage() {
 
             <div className="rounded-xl border bg-card p-6 shadow-sm">
               <SolutionButtons
-                isEnabled={reasoning.trim().length > 0 && !isAnalyzing}
+                isEnabled={
+                  (reasoning.trim().length > 0 || !!imageBase64) && !isAnalyzing
+                }
                 onEvaluateWithAI={handleEvaluateWithAI}
                 onViewVideo={() => alert("Video coming soon")}
                 onViewDescriptive={() => alert("Solution coming soon")}

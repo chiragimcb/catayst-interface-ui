@@ -1,0 +1,164 @@
+[
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "1) A GMAT aspirant appears for a certain number of tests. His average score increases by 10 if the first 10 tests are not considered, and decreases by 10 if the last 10 tests are not considered. If his average scores for the first 10 and the last 10 tests are 600 and 700, respectively, then the total number of tests taken by him is",
+    "options": ["40", "50", "60", "70", "80"],
+    "answer": "50"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "2) Train-A and train-B crosses each other in 8 seconds, while running in opposite direction. Train-B crosses a pole in 8.4 seconds and train-A crosses a 90 meters long tunnel in 12 seconds. If speed of train-A is 15 km/hr more than the speed of train-B, then find the ratio of length of train-A to length of train-B.",
+    "options": ["8:7", "11:7", "5:4", "3:2", "None of the above"],
+    "answer": "8:7"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "3) Two trains A and B left from two stations towards station B and station A respectively. 3 hours after they met, the trains were 675 miles apart. The first train arrived at its destination 16 hours after their meeting and the second train arrived at its destination 25 hours after their meeting. How long did it take for the first train to make the whole trip?",
+    "options": ["18 hours", "36 hours", "25 hours", "48 hours", "60 hours"],
+    "answer": "36 hours"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "4) A businessman earns $27800 in December, thus decreasing his average annual earnings by $1200. His average annual earnings would be",
+    "options": ["$29000", "$33500", "$40200", "$41000", "$42300"],
+    "answer": "$41000"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "5) A milkman sells milk after adding some water in it. Quantity of water is 74% of quantity of milk in mixture. If milkman sells the mixture (milk+ water) at 16.66% discount (16.66% less price than CP of pure milk) find profit % of milkman?",
+    "options": ["37%", "40%", "45%", "50%", "57.5%"],
+    "answer": "45%"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "6) A train's journey is disrupted due to an accident on its track after it has traveled 30 km. Its speed then come down to four-fifth of its original, and consequently, it run 45 min late. Had the accident taken place 18 km farther away, it would have been 36 min late. Find the original speed of the train.",
+    "options": ["24", "35", "30", "20", "25"],
+    "answer": "30"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "7) Average age of a family of 5 members at present is 35. If After some years, the eldest member of the family will die, and twins are born just one year before death, such that 6 years after death, the average age of family will become 25.5 years. If the eldest member will die at the age of 85 years, find after how many years from present, will he die?",
+    "options": ["10 years", "2 years", "5 years", "15 years", "12 years"],
+    "answer": "5 years"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "8) 3 cooks have to make 80 burgers. They are known to make 20 pieces every minute working together. The 1st cook began working alone and made 20 pieces having worked for sometime more than 3 mins. The remaining part of the work was done by second and 3rd cook working together. It took a total of 8 minutes to complete the 80 burgers. How many minutes would it take the 1st cook alone to cook 160 burgers?",
+    "options": ["16 mins", "24 mins", "32 mins", "40 mins", "30 mins"],
+    "answer": "32 mins"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "9) A fill pipe can fill a tank in 20 hours, a drain pipe can drain a tank in 30 hours. If a system of n pipes (fill pipes and drain pipes put together) can fill the tank in exactly 5 hours, which of the following are possible values of n (More than one option could be correct)? I. 32, II. 54, III. 29, IV. 40",
+    "options": [
+      "I and II only",
+      "I and III only",
+      "II and IV only",
+      "II and III only",
+      "I and IV only"
+    ],
+    "answer": "II and IV only"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "10) Of the numbers q, r, s, and t, which is greatest? (1) The average (arithmetic mean) of q and r is s. (2) The sum of q and r is t.",
+    "options": [
+      "Statement (I) ALONE is sufficient, but statement (II) ALONE is not sufficient.",
+      "Statement (II) ALONE is sufficient, but statement (I) ALONE is not sufficient.",
+      "BOTH statements TOGETHER are sufficient, but NEITHER statement ALONE is sufficient.",
+      "EACH statement ALONE is sufficient.",
+      "Statements (I) and (II) TOGETHER are NOT sufficient."
+    ],
+    "answer": "Statements (I) and (II) TOGETHER are NOT sufficient."
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "11) How many of the numbers x, y, and z are positive if each of these numbers is less than 10? (1) x + y + z = 20 (2) x + y = 14",
+    "options": [
+      "Statement (I) ALONE is sufficient, but statement (II) ALONE is not sufficient.",
+      "Statement (II) ALONE is sufficient, but statement (I) ALONE is not sufficient.",
+      "BOTH statements TOGETHER are sufficient, but NEITHER statement ALONE is sufficient.",
+      "EACH statement ALONE is sufficient.",
+      "Statements (I) and (II) TOGETHER are NOT sufficient."
+    ],
+    "answer": "Statement (I) ALONE is sufficient, but statement (II) ALONE is not sufficient."
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "12) Which of the following could be the sum of 12 consecutive integers?",
+    "options": ["92", "198", "328", "412", "1,570"],
+    "answer": "198"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "13) Allen starts from X, goes to Y. At the same time Bob starts from Y and goes towards X. Once Allen reaches Y he changes his direction and returns to X. Once Bob reaches X, he changes his direction and returns to Y. Throughout Allen travels at 54 kmph and Bob travels at 72kmph. By the time they meet for the second time, Bob covers 36 km more than Allen. Find the distance between X and Y.",
+    "options": ["144 km", "72 km", "126 km", "84 km", "42 km"],
+    "answer": "42 km"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "14) Jim and Beth are in a ticket line along with 43 other people, and Jim is ahead of Beth in the line. If there are 20 people behind Jim and 30 people ahead of Beth, how many people in the line are between Beth and Jim?",
+    "options": ["5", "7", "10", "13", "15"],
+    "answer": "10"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "15) If Father's age is 1 less than twice the son's age, what is the son's age? (1) The digits MN making up the father's age are reversed in the son's age i.e NM. (2) Father is at least 25 years older than son",
+    "options": [
+      "Statement (I) ALONE is sufficient, but statement (II) ALONE is not sufficient.",
+      "Statement (II) ALONE is sufficient, but statement (I) ALONE is not sufficient.",
+      "BOTH statements TOGETHER are sufficient, but NEITHER statement ALONE is sufficient.",
+      "EACH statement ALONE is sufficient.",
+      "Statements (I) and (II) TOGETHER are NOT sufficient."
+    ],
+    "answer": "Statement (I) ALONE is sufficient, but statement (II) ALONE is not sufficient."
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "16) The average weight of students in a class increases by 600 gm when some new students join the class. If the average weight of the new students is 3 kg more than the average weight of the original students, then the ratio of the number of original students to the number of new students is",
+    "options": ["1 : 2", "3 : 1", "1 : 4", "4 : 1", "1 : 3"],
+    "answer": "4 : 1"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "17) The average of a set of five distinct integers is 300. If each number is less than 2,000, and the median of the set is the greatest possible value, what is the sum of the two smallest numbers?",
+    "options": [
+      "-4,494",
+      "-3,997",
+      "-3,494",
+      "-3,194",
+      "The answer cannot be determined from the information given"
+    ],
+    "answer": "-4,494"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "18) The mean of six positive integers is 15. The median is 18, and the only mode of the integers is less than 18. The maximum possible value of the largest of the six integers is",
+    "options": ["26", "28", "30", "32", "34"],
+    "answer": "34"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "19) A set S had 20 different positive integers. A 21st integer, equivalent to the mean of the set, was added to the set. Which of the following statistics for the group may have changed? I. Mean, II. Median, III. Standard Deviation",
+    "options": [
+      "II only",
+      "III only",
+      "I and II only",
+      "II and III only",
+      "I, II, and III"
+    ],
+    "answer": "II and III only"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "20) A bike running at 80 km/h initially is slowed down to its normal/ allowed speed of 60 km/h as soon as the fuel indicator touches the half level mark. It keeps running at this speed till it runs out of fuel, thereby covering a total distance of 640 km in 10 hours. If the bike consumes 2 litres of fuel per hour at its normal speed, what is the capacity (in litres) of the fuel tank of the bike?",
+    "options": ["16", "20", "32", "40", "56"],
+    "answer": "32"
+  },
+  {
+    "exam": "GMAT Unit Test-2",
+    "question": "21) A boat moves at 20 km/h in still water. If it travels 100 km downstream in 5 hours, what is the speed of the current?",
+    "options": ["4", "5", "0", "2", "1"],
+    "answer": "0"
+  }
+]
